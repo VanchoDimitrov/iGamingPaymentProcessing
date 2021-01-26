@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Akka.Actor;
+using System;
 
 namespace iGamingPaymentProcessing
 {
@@ -23,6 +24,12 @@ namespace iGamingPaymentProcessing
             cardsGame1.GamePlay("Level 3");
 
             gamesFactory.AvailableGames();
+
+            //Distributed integration test - not implemented in full yet. Testing.
+            var system1 = ActorSystem.Create("test");
+
+            var first = system1.ActorOf(Props.Create<StartStopActor1>(), "first");
+            first.Tell("stop");
 
             Console.ReadKey();
         }

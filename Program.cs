@@ -28,8 +28,9 @@ namespace iGamingPaymentProcessing
             //Distributed integration test - not implemented in full yet. Testing.
             var system1 = ActorSystem.Create("test");
 
-            var first = system1.ActorOf(Props.Create<StartStopActor1>(), "first");
-            first.Tell("stop");
+            var first = 
+                system1.ActorOf(Props.Create<StartStopActor1>(), "first");
+            first.Tell("Games added");
 
             Console.ReadKey();
         }

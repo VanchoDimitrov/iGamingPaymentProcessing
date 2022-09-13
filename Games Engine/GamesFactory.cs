@@ -43,5 +43,16 @@ namespace iGamingPaymentProcessing
                 Console.WriteLine("Game for playing: {0}", games.Value.GameName);
             }
         }
+
+        public int AddedAvailableGames()
+        {
+            int countGames = 0;
+            foreach (var games in gamesProcessed)
+            {
+                countGames++;
+            }
+
+            return countGames;
+        }
     }
 }

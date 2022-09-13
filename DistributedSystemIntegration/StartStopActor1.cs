@@ -11,13 +11,17 @@ namespace iGamingPaymentProcessing
             Context.ActorOf(Props.Create<StartStopActor2>(), "second");
         }
 
-        protected override void PostStop() => Console.WriteLine("first stopped");
+        protected override void PostStop()
+        {
+            Console.WriteLine("first stopped");
+        } 
 
         protected override void OnReceive(object message)
         {
             switch (message)
             {
-                case "stop":
+                case "Games added":
+                    Console.WriteLine("Message delivered.\nGames have been started!");
                     Context.Stop(Self);
                     break;
             }

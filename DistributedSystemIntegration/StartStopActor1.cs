@@ -1,7 +1,7 @@
 ﻿using Akka.Actor;
 using System;
 
-namespace iGamingPaymentProcessing
+namespace iGamingPaymentProcessing.DistributedSystemIntegration
 {
     public class StartStopActor1 : UntypedActor
     {
@@ -14,7 +14,7 @@ namespace iGamingPaymentProcessing
         protected override void PostStop()
         {
             Console.WriteLine("first stopped");
-        } 
+        }
 
         protected override void OnReceive(object message)
         {

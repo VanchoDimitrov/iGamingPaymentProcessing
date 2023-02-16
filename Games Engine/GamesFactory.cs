@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace iGamingPaymentProcessing
 {
-    public class GamesFactory
+    public class GamesFactory : IGamesFactory
     {
-        private readonly Dictionary<string, IGamesForPlaying> gamesProcessed = new Dictionary<string, IGamesForPlaying>();
+        private readonly Dictionary<string, IGamesForPlaying> gamesProcessed
+            = new Dictionary<string, IGamesForPlaying>();
 
-        public IGamesForPlaying games;
+        private IGamesForPlaying games;
+
+        public GamesFactory(IGamesForPlaying games)
+        {
+            this.games = games;
+        }
+
         public IGamesForPlaying PayToPlayGame(string gameName)
         {
             if (gamesProcessed.ContainsKey(gameName))

@@ -1,7 +1,7 @@
 ﻿using Akka.Actor;
 using System;
 
-namespace iGamingPaymentProcessing
+namespace iGamingPaymentProcessing.DistributedSystemIntegration
 {
     public class StartStopActor2 : UntypedActor
     {

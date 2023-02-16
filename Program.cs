@@ -1,5 +1,10 @@
 ﻿using Akka.Actor;
+using iGamingPaymentProcessing.DistributedSystemIntegration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using System;
+
 
 namespace iGamingPaymentProcessing
 {
@@ -7,7 +12,22 @@ namespace iGamingPaymentProcessing
     {
         static void Main(string[] args)
         {
-            var gamesFactory = new GamesFactory();
+            var services = new ServiceCollection()
+                .AddLogging(c => c.AddConsole(opt =>
+                opt.LogToStandardErrorThreshold = LogLevel.Debug))
+                .AddScoped<IGamesFactory, GamesFactory>()
+                .AddScoped<IGamesForPlaying, CardGames>()
+                .AddScoped<IGamesForPlaying, CasinoCards>()
+                .BuildServiceProvider();
+
+            services.GetService<ILoggerFactory>();
+
+            var logger = services.GetService<ILoggerFactory>()
+                .CreateLogger<Program>();
+            logger.LogDebug("Start Console App");
+
+
+            var gamesFactory = services.GetService<IGamesFactory>();
             gamesFactory.AvailableGames();
 
             var casinoCards = gamesFactory.PayToPlayGame("Casino Game 1");
@@ -28,11 +48,14 @@ namespace iGamingPaymentProcessing
             //Distributed integration test - not implemented in full yet. Testing.
             var system1 = ActorSystem.Create("test");
 
-            var first = 
+            var first =
                 system1.ActorOf(Props.Create<StartStopActor1>(), "first");
             first.Tell("Games added");
+
+            logger.LogDebug("Finished");
 
             Console.ReadKey();
         }
     }
 }
+

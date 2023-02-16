@@ -6,8 +6,8 @@ namespace iGamingPaymentProcessing
 {
     public interface IPaymentProcessing
     {
-        bool CheckIfPaid(ICustomer customer, IGamesForPlaying cardGames, IGamesForPlaying casinoCards);
+        bool CheckIfPaid(ICustomer customer, params object[] game);
 
-        bool ProcessPayment(ICustomer customer, IGamesForPlaying cardGames, IGamesForPlaying casinoCards);
+        bool ProcessPayment(ICustomer customer, params object[] game);
     }
 }

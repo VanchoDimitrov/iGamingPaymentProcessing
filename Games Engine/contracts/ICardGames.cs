@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace iGamingPaymentProcessing
 {
-    public interface IGamesForPlaying
+    public interface ICardGames
     {
         int GameID { get; set; }
         string GameName { get; set; }
         List<CasinoCards> typesCasinoGames { get; set; }
-        void GamePlay(string version);
+
         List<CasinoCards> FillCollection(List<CasinoCards> casinoCards);
+        void GamePlay(string version, ICardGames cardGames);
     }
 }

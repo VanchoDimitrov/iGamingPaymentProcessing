@@ -7,20 +7,19 @@ using System;
 
 namespace iGamingPaymentProcessing
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var services = new ServiceCollection().AddLogging(c => c.AddConsole(opt => opt.LogToStandardErrorThreshold = LogLevel.Debug))
-                .AddLogging()
                 .AddScoped<IGamesFactory, GamesFactory>()
 
-                .AddScoped<IGamesForPlaying, CardGames>()
-                .AddScoped<IGamesForPlaying,CasinoCards>()
+                .AddScoped<ICardGames, CardGames>()
+                .AddScoped<ICasinoCards, CasinoCards>()
 
                 .AddScoped<IPaymentProcessing, Payments>()
-                .AddScoped<ICustomer, Customer>()         
-                
+                .AddScoped<ICustomer, Customer>()
+
                 .BuildServiceProvider();
 
             services.GetService<ILoggerFactory>();
@@ -28,23 +27,30 @@ namespace iGamingPaymentProcessing
             var logger = services.GetService<ILoggerFactory>().CreateLogger<Program>();
             logger.LogDebug("Start Console App");
 
-            var casinoCards = services.GetService<CasinoCards>();
+            var cardGames = services.GetService<ICardGames>();
+            var casinoCards = services.GetService<ICasinoCards>();
+            casinoCards.FillCollection();
+            casinoCards.AvailableGames();
+
+
 
             var gamesFactory = services.GetService<IGamesFactory>();
             gamesFactory.AvailableGames();
+            
 
-            var games = gamesFactory.PayToPlayGame("Casino Game 1");
-            games.FillCollection(casinoCards.typesCasinoGames);
-            games.GamePlay("Level 1");
+            gamesFactory.PayToPlayGame("Casino Game 3", casinoCards);
+            casinoCards.GamePlay("Level 2", casinoCards);
+            casinoCards.GamePlay("Level 1", casinoCards);
+            
 
-            //var cardsGame = gamesFactory.PayToPlayGame("Cards Game 1");
-            //cardsGame.GamePlay("Level 2");
+            gamesFactory.PayToPlayGame("Cards Game 14", cardGames);
+            cardGames.GamePlay("Level 2", cardGames);
 
-            //var casinoCards1 = gamesFactory.PayToPlayGame("Casino Game 1");
-            //casinoCards1.GamePlay("Level 2");
+            gamesFactory.PayToPlayGame("Casino Game 6", casinoCards);
+            casinoCards.GamePlay("Level 3", casinoCards);
 
-            //var cardsGame1 = gamesFactory.PayToPlayGame("Cards Game 1");
-            //cardsGame1.GamePlay("Level 3");
+            gamesFactory.PayToPlayGame("Cards Game 1", cardGames);
+            cardGames.GamePlay("Level 4", cardGames);
 
             gamesFactory.AvailableGames();
 

@@ -4,6 +4,6 @@
     {
         int AddedAvailableGames();
         void AvailableGames();
-        IGamesForPlaying PayToPlayGame(string gameName);
+        void PayToPlayGame(string gameName, object gameType);
     }
 }

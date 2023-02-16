@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace iGamingPaymentProcessing
 {
-    public class CardGames : IGamesForPlaying
+    public class CardGames : ICardGames
     {
         public int GameID { get; set; }
         public string GameName { get; set; }
@@ -15,7 +15,7 @@ namespace iGamingPaymentProcessing
             this.GameName = "Cards Game 1";
         }
 
-        public void GamePlay(string version)
+        public void GamePlay(string version, ICardGames cardGames)
         {
             Console.WriteLine($"Currently playing {GameName} version {version}. Free version.");
         }

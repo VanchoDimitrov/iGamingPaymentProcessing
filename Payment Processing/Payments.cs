@@ -6,12 +6,12 @@ namespace iGamingPaymentProcessing
 {
     public class Payments : IPaymentProcessing
     {
-        public bool CheckIfPaid(ICustomer customer, IGamesForPlaying cardGames, IGamesForPlaying casinoCards)
+        public bool CheckIfPaid(ICustomer customer, params object[] game)
         {
             return false;
         }
 
-        public bool ProcessPayment(ICustomer customer, IGamesForPlaying cardGames, IGamesForPlaying casinoCards)
+        public bool ProcessPayment(ICustomer customer, params object[] game)
         {
             return true;
         }

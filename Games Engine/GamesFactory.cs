@@ -6,37 +6,41 @@ namespace iGamingPaymentProcessing
 {
     public class GamesFactory : IGamesFactory
     {
-        private readonly Dictionary<string, IGamesForPlaying> gamesProcessed
-            = new Dictionary<string, IGamesForPlaying>();
+        private readonly Dictionary<string, IGamesForPlaying> gamesProcessed = new Dictionary<string, IGamesForPlaying>();
 
         private IGamesForPlaying games;
 
-        public GamesFactory(IGamesForPlaying games)
+        private IGamesForPlaying casinoCards;
+        private IGamesForPlaying cardGames;
+
+        public GamesFactory(IGamesForPlaying games, IGamesForPlaying _casinoCards, IGamesForPlaying cardGames)
         {
             this.games = games;
+            this.casinoCards = _casinoCards;
+            this.cardGames = cardGames;
         }
 
-        public IGamesForPlaying PayToPlayGame(string gameName)
+        public void PayToPlayGame(string gameName, params object[] gameType)
         {
             if (gamesProcessed.ContainsKey(gameName))
             {
-                return gamesProcessed[gameName];
+                throw new InvalidOperationException("Such game exists.");
             }
 
             switch (gameName)
             {
                 case "Casino Game 1":
-                    games = new CasinoCards();
+                    //games = (IGamesForPlaying)casinoCards;
+                    games = casinoCards;
                     Thread.Sleep(1300);
                     break;
                 case "Cards Game 1":
-                    games = new CardGames();
+                    games = cardGames;
                     Thread.Sleep(1300);
                     break;
             }
 
             gamesProcessed.Add(gameName, games);
-            return games;
         }
 
         public void AvailableGames()

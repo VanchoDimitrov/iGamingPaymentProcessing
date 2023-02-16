@@ -1,16 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace iGamingPaymentProcessing
 {
     public class CasinoCards : IGamesForPlaying
     {
+        #region Types
+        private ICustomer customer;
+
+        private IPaymentProcessing paymentProcessing;
+
+        private IGamesForPlaying cardGames;
+
+        private IGamesForPlaying casinoCards;
+        #endregion Types
+
+        #region Properties
         public int GameID { get; set; }
         public string GameName { get; set; }
 
         public List<CasinoCards> typesCasinoGames { get; set; } = new List<CasinoCards>();
+
+        #endregion Properties
+
+        #region Constructor
+        public CasinoCards(ICustomer customer, IPaymentProcessing paymentProcessing, IGamesForPlaying cardGames, IGamesForPlaying casinoCards)
+        {
+            this.customer = customer;
+            this.paymentProcessing = paymentProcessing;
+            this.cardGames = cardGames;
+            this.casinoCards = casinoCards;
+        }
+
+        #endregion Constructor
 
         public List<CasinoCards> FillCollection(List<CasinoCards> casinoCards)
         {
@@ -34,17 +57,8 @@ namespace iGamingPaymentProcessing
             this.GameName = "Casino Game 1";
         }
 
-        /// <summary>
-        ///     Game play and payment processing
-        /// </summary>
-        /// <param name="version"></param>
         public void GamePlay(string version)
         {
-            ICustomer customer = new Customer();
-            CardGames cardGames = new CardGames();
-            CasinoCards casinoCards = new CasinoCards();
-
-            IPaymentProcessing paymentProcessing = new Payments();
             var checkIfPaid = paymentProcessing.CheckIfPaid(customer, cardGames, casinoCards);
 
             if (!checkIfPaid)
